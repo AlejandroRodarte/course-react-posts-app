@@ -16,7 +16,7 @@ class Blog extends Component {
 
     componentDidMount() {
         axios
-            .get('https://jsonplaceholder.typicode.com/posts')
+            .get('/posts')
             .then(({ data: posts }) => this.setState(() => ({ posts: posts.slice(0, 4).map(post => ({ ...post, author: 'Alex' })) })))
             .catch(() => this.setState(() => ({ error: true })));
     }
