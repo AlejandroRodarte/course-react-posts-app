@@ -6,9 +6,9 @@ import './Posts.css';
 
 import axios from '../../../axios';
 
-class Posts extends Component {
+import makeCancelable from '../../../utils/promises/make-cancelable';
 
-    _isMounted = false;
+class Posts extends Component {
 
     state = {
         posts: []
@@ -16,15 +16,15 @@ class Posts extends Component {
 
     componentDidMount() {
 
-        this._isMounted = true
+        this.cancellablePromise = 
+            makeCancelable(
+                axios
+                    .get('/posts')
+            );
 
-        axios
-            .get('/posts')
-            .then(({ data: posts }) => {
-                if (this._isMounted) {
-                    this.setState(() => ({ posts: posts.slice(0, 4).map(post => ({ ...post, author: 'Alex' })) }))
-                }
-            })
+        this.cancellablePromise
+            .promise
+            .then(({ data: posts }) => this.setState(() => ({ posts: posts.slice(0, 4).map(post => ({ ...post, author: 'Alex' })) })))
             .catch(console.log);
 
     }
@@ -66,7 +66,7 @@ class Posts extends Component {
     }
 
     componentWillUnmount() {
-        this._isMounted = false;
+        this.cancellablePromise.cancel();
     }
 
 }
