@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Post from '../../../components/Post/Post';
 
@@ -49,12 +50,16 @@ class Posts extends Component {
                     .posts
                     .map(
                         ({ id, title, author }) => 
-                            <Post 
-                                key={ id } 
-                                title={ title } 
-                                author={ author }
-                                clicked={ () => this.postSelectedHandler(id) }
-                            />
+                            <Link 
+                                to={ `/${id}` }
+                                key={ id }
+                            >
+                                <Post 
+                                    title={ title } 
+                                    author={ author }
+                                    clicked={ () => this.postSelectedHandler(id) }
+                                />
+                            </Link>
                     );
 
         }
