@@ -8,15 +8,25 @@ import axios from '../../../axios';
 
 class Posts extends Component {
 
+    _isMounted = false;
+
     state = {
         posts: []
     };
 
     componentDidMount() {
+
+        this._isMounted = true
+
         axios
             .get('/posts')
-            .then(({ data: posts }) => this.setState(() => ({ posts: posts.slice(0, 4).map(post => ({ ...post, author: 'Alex' })) })))
+            .then(({ data: posts }) => {
+                if (this._isMounted) {
+                    this.setState(() => ({ posts: posts.slice(0, 4).map(post => ({ ...post, author: 'Alex' })) }))
+                }
+            })
             .catch(console.log);
+
     }
 
     postSelectedHandler = (id) => this.setState(() => ({ selectedPost: id }));
@@ -53,6 +63,10 @@ class Posts extends Component {
             </section>
         );
 
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
 }
