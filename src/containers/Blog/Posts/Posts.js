@@ -16,6 +16,8 @@ class Posts extends Component {
 
     componentDidMount() {
 
+        console.log(this.props);
+
         this.cancellablePromise = 
             makeCancelable(
                 axios
