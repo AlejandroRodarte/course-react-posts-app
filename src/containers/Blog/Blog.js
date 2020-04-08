@@ -57,6 +57,8 @@ class Blog extends Component {
                         component={ Posts }
                     />
 
+                    <Route render={ () => <h1>Not Found</h1> } />
+
                     <Redirect 
                         from="/" 
                         to="/posts" 
