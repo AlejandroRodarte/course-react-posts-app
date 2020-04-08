@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
+import asyncComponent from '../../hoc/AsyncComponent';
+
 import Posts from './Posts/Posts';
-import NewPost from './NewPost/NewPost';
+
+// import NewPost from './NewPost/NewPost'; (eager loading)
 
 import './Blog.css';
+
+const AsyncNewPost = asyncComponent(() => import('./NewPost/NewPost')); // lazy loading
 
 class Blog extends Component {
 
     state = {
-        auth: false
+        auth: true
     };
 
     render () {
@@ -48,7 +53,7 @@ class Blog extends Component {
                         this.state.auth ?
                         <Route 
                             path="/new-post"
-                            component={ NewPost }
+                            component={ AsyncNewPost }
                         /> : null
                     }
                     
