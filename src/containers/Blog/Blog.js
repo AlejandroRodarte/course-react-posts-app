@@ -9,9 +9,7 @@ import './Blog.css';
 class Blog extends Component {
 
     state = {
-        posts: [],
-        selectedPost: null,
-        error: false
+        auth: false
     };
 
     render () {
@@ -45,18 +43,25 @@ class Blog extends Component {
                 </header>
 
                 <Switch>
-                    <Route 
-                        path="/new-post"
-                        component={ NewPost }
-                    />
+
+                    {
+                        this.state.auth ?
+                        <Route 
+                            path="/new-post"
+                            component={ NewPost }
+                        /> : null
+                    }
+                    
                     <Route 
                         path="/posts"
                         component={ Posts }
                     />
+
                     <Redirect 
                         from="/" 
                         to="/posts" 
                     />
+
                 </Switch>
 
             </div>
